@@ -83,7 +83,6 @@ new_post.save(function (err,post){
 function getBlogPost(value, cb){
   console.log('running getBlogPost');
   BlogPost.find({_id: value}, function (err, posts){
-      console.log("model.js getblogpost: " + posts);
       cb(posts);
   });
 }
@@ -105,25 +104,18 @@ function createUser(){
 
 }
 
-function updateBlogPost(id, cb){
-
-  User.findOneAndUpdate({_id: id} , function (err,user){
-    if (err) {
-      console.log(err);
-    }
-    user.blogposts.forEach(function (blogpost){
-      if (blogpost.id === id){
-        blogpost.text = text;
-        blogpost.title = title;
-      }
+function updateBlogPost(clientdata, cb){
+  // BlogPost.findOneAndUpdate({title: clientdata.title},{
+  //       text: clientdata.text,
+  //       title: clientdata.title
+  //     }, function(err){
+  //       if (err) {
+  //         console.log("error updating blog");
+  //       }
+  //     });
+    BlogPost.find({}, function (err, posts){
+        cb(posts);
     });
-
-    console.log(user);
-    user.save();
-
-    cb();
-
-  });
 }
 
 function deleteBlogpost(username,id){

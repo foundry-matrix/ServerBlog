@@ -4,7 +4,6 @@ var path = __dirname + "/views";
 var url = require("url");
 
 module.exports = {
-
 	home: function handler(req, res) {
 		model.BlogPost.find({author: 'per'}, function(err,posts){
 			var fn = jade.compileFile(path + "/index.jade");
@@ -36,15 +35,14 @@ module.exports = {
   		});
 	},
 
-	save: function handler(req, res, blogid) {
-		model.updateBlogPost(blogid, function(posts){
-			console.log("update handler: "+ posts);
+	save: function handler(req, res, clientdata) {
+		model.updateBlogPost(clientdata, function(err,posts){
 			var fn = jade.compileFile(path + "/index.jade");
 			var htmlOutput = fn({posts: posts});
-			console.log("Request handler 'create' was called.");
+			console.log("Request handler 'home' was called.");
 			res.writeHead(200, {"Content-Type": "text/html"});
 			res.end(htmlOutput);
   		});
-	}
+  	}
 
 }
