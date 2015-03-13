@@ -181,7 +181,8 @@ function home_login(req, res) {
 }
 
 function home(req, res) {
-		model.BlogPost.find({author: 'per'}, function(err,posts){
+		model.BlogPost.find(function(err,posts){
+			// {author: 'per'},  *** Removing this from line above so all authors show.
 		    var fn = jade.compileFile(rootPath + "/index.jade");
 			var htmlOutput = fn({posts:posts});
 			console.log("Request handler 'home' was called.");
