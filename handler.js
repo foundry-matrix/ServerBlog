@@ -13,6 +13,26 @@ test_data = {
 }
 
 
+// lookup person in "database"
+u = { un: 'per', pw: '123', _id: '5' };
+
+function authHandler( req, res,blogid,clientData ){
+		console.log('AuthHandler triggered');
+		console.log('cliendData: ', clientData);
+
+		//do a db query to check if username and password is correct
+
+		if (clientData.username && clientData.username === u.un && clientData.password && clientData.password == u.pw){
+			//console.log('auth succeed. Id: ', id);
+			var _id = u._id;
+			return authSuccess(req,res, _id);
+		} else {
+			console.log('auth failed');
+			return authFail(req,res);
+		} 
+}
+
+
 function authFail(req,res){
 	res.writeHead(401, {'Content-Type': 'text/html'});
 	var fn = jade.compileFile(rootPath + "/fail.jade");
@@ -21,7 +41,7 @@ function authFail(req,res){
 
 // Question: Why are we doing this?
 function generateGUID() {
-  return new Date().getTime(); 
+  return new Date().getTime();
 }
 
 
@@ -38,6 +58,16 @@ function generateToken(req, GUID){
 function authSuccess(req, res, _id){
 	var GUID = generateGUID(); // Question: What is this?
 	var token = generateToken(req, GUID);
+	
+	// write head, and store the token as a Cookie
+	res.writeHead(200, {
+		'Content-Type': 'text/html',
+		'authorization': token,
+		'Set-Cookie': token
+	});
+
+
+	// create a record object for the DB. Used to store valid boolean, date, and also the user id (we're at least doing this)
 	var record = {
 		valid: "true",
 		created: new Date().getTime(),
@@ -54,43 +84,10 @@ function authSuccess(req, res, _id){
 	    console.log('saved token: ', saved_token);
 	});
 
-	res.writeHead(200, {
-		'Content-Type': 'text/html',
-		'authorization': token,
-		'Set-Cookie': token
-	});
-	var fn = jade.compileFile(rootPath + "/restricted.jade");
+	var fn = jade.compileFile(rootPath + "/auth_restricted.jade");
 	res.end(fn(test_data));
 }
 
-
-// lookup person in "database"
-u = { un: 'per', pw: '123', _id: '5' };
-
-function authHandler( req, res,blogid,clientData ){
-		console.log('AuthHandler triggered');
-		console.log('cliendData: ', clientData);
-		/*if (req.method === 'POST'){
-			console.log('req.method is POST')
-			var body = '';
-			req.on('data', function (data){
-				console.log('data recieved: ', data)
-				body += data;
-			});
-			req.on('end', function(){
-				var post = querystring.parse(body);
-				console.log('username: ', u.un);
-				console.log('id ', u._id);
-				*/
-		if (clientData.username && clientData.username === u.un && clientData.password && clientData.password == u.pw){
-			//console.log('auth succeed. Id: ', id);
-			var _id = u._id;
-			return authSuccess(req,res, _id);
-		} else {
-			console.log('auth failed');
-			return authFail(req,res);
-		} 
-}
 
 
 function verify(token){
@@ -109,9 +106,9 @@ function verify(token){
 
 function validate(req, res, callback){
 	console.log('running validate')
-	var token = req.headers.authorization || req.headers.cookie;
-	// console.log(req.headers)
 	console.log('token is: ', token);
+
+	var token = req.headers.cookie;
 	var decoded = verify(token);
 	console.log('decoded: ', decoded);
 	if ( !decoded || !decoded.auth ){ // why isnt !decoded enough
@@ -133,7 +130,14 @@ function validate(req, res, callback){
 				console.log('record.valid in db is false. record: ', record )
 				authFail(req,res)
 			} else {
-				privado(res,token);
+				console.log('record.valid is true!');
+				console.log('redord.id is ', record._id );
+
+				// do db query here, and fetch user document, stored as u
+				var u = { un: 'per', pw: '123', _id: '5' };
+				
+				privado(res,token,u);
+				
 				//return callback(res);
 			}
 		});
@@ -161,23 +165,29 @@ function logout(req,res,callback){
 	}
 }
 
-function privado(res,token){
+
+function fetchUser(req,res,_id){
+
+}
+
+
+function privado(res,token, user){
 	res.writeHead(200, { 
 		'Content-Type': 'text/html'
 		//'authorization': token // I dont need this, I think.
 	});
 
 	var fn = jade.compileFile(rootPath + "/restricted.jade");
-  	var htmlOutput = fn(test_data);
+  	var htmlOutput = fn({user:user});
   	return res.end(htmlOutput);
 }
 
 
 function home_login(req, res) {
-  res.writeHead(200, {'Content-Type': 'text/html'});
-  var fn = jade.compileFile(rootPath + "/home_login.jade");
-  var htmlOutput = fn(test_data);
-  return res.end(htmlOutput);
+	res.writeHead(200, {'Content-Type': 'text/html'});
+	var fn = jade.compileFile(rootPath + "/home_login.jade");
+	var htmlOutput = fn(test_data);
+	return res.end(htmlOutput);
 }
 
 function home(req, res) {
