@@ -13,23 +13,50 @@
 
 
 /*--------------------*/
+
+/*HOMEPAGE*/
+.create-button{
+	float:right;
+}
+
+/*--------------------*/
+
+/*SIDEBAR*/
+a li {
+	padding:10px 0px;
+	border-bottom: 1px solid rgba(0,0,0,0.05);
+	padding: 23px 0px;
+}
+
+.sidebar-author{
+	font-style: italic;
+
+}
+/*----------*/
 .header {
 	text-align: center;
-	font-weight:900;
+	letter-spacing: 6px;
+	font-family:'Questrial';
+	text-transform: uppercase;
+	/*outline: 1px solid red;*/
+	color:#817a74;
+	font-size: 80px;
+	opacity: 0.6;
 }
 body {
-		background: url(light_toast.png);
+		background-color: white;
 }
 .sidebar {
-    background-color: white;
+    background-color: #fafafa;
 }
 .content {
-    background-color: white;
+    /*background-color: #fafafa;*/
 }
 .indivpost {
-    background-color: #55ACEE;
+    background-color: #B8E1FF;
     padding: 10px;
-    margin: 10px;      
+    margin: 10px;  
+    border-bottom:2px solid #fafafa;    
 }
 .img {
 	float: left;

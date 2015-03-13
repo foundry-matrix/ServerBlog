@@ -1,24 +1,24 @@
 html
 	head
-		title Foundry Matrix Blog
-		link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css")
-		link(rel='stylesheet' href='/styling/main.css')
+		include ./head
 	body
-		div(class="header col-md-12")
-			include ./header
-			div(class="form col-md-6 col-centered")
-		div(class="header col-md-12")
-			a(href="/create")
-				button(type="button") Add Article
-		form( action="&path=/auth",method="post")
-			p Username
-			input(type="text" name='username',rows="2",cols="10")
-			p Password
-			input(name="password",rows="10",cols="60")
-			input(type="submit",value="Save blog")
-		div(class="sidebar col-md-3 col-xs-3 col-sm-3")
-			include ./sidebar
-		div(class="col-md-1 col-xs-1 col-sm-1")
-		div(class="content col-md-8 col-xs-8 col-sm-8")
-			include ./content
+		div(class="container col-md-12")
+			div(class="header col-md-12")
+				include ./header
+			div(class="top-bar col-md-12")
+				div(class="col-md-8 col-sm-8 col-xs-8")
+					form( action="&path=/auth",method="post")
+						p Username
+						input(type="text" name='username',rows="2",cols="10")
+						p Password
+						input(name="password",rows="10",cols="60")
+						input(type="submit",value="Submit")
+				div(class="col-md-4 col-sm-4 col-xs-4")
+					a(class="create-button" href="/create")
+						button(type="button") Add Article
+			div(class="sidebar col-md-3 col-xs-3 col-sm-3")
+				include ./sidebar
+			div(class="col-md-1 col-xs-1 col-sm-1")
+			div(class="content col-md-8 col-xs-8 col-sm-8")
+				include ./content
 

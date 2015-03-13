@@ -1,4 +1,4 @@
 each blogpost in posts
 	a(href="&path=/blogposts&blogid=" + blogpost.id)
-		li #{blogpost.title} - #{blogpost._id.$iod}
-		
+		li #{blogpost.title} - 
+			span(class="sidebar-author") #{blogpost.author}
