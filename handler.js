@@ -35,7 +35,7 @@ module.exports = {
 			var htmlOutput = fn({posts: posts});
 			console.log("Request handler 'home' was called.");
 			res.writeHead(200, {"Content-Type": "text/html"});
-			res.end(htmlOutput);
+			res.end('blog post created');
   		});
 	},
 
@@ -72,7 +72,7 @@ module.exports = {
 			var htmlOutput = fn({posts: posts});
 			console.log("Request handler 'home' was called.");
 			res.writeHead(200, {"Content-Type": "text/html"});
-			res.end(htmlOutput);
+			res.end('blog post updated');
   		});
 	},
 
@@ -83,7 +83,7 @@ module.exports = {
 			var htmlOutput = fn({posts: posts});
 			console.log("Request handler 'home' was called.");
 			res.writeHead(200, {"Content-Type": "text/html"});
-			res.end(htmlOutput);
+			res.end('blog deleted');
   		});
 	}
 
