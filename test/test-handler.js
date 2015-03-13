@@ -1,13 +1,13 @@
+
+/*
 var shot = require("shot");
 var handler = require("../handler.js");
 var assert = require("assert");
 var request;
 
 
-describe("home page response", function(){
-	
+describe("TEST: home page response in test-handler.js", function(){
 	it('should return 200 as the status code', function(done){
-		
 		request = {
 			method: 'GET',
 			url: '/'
@@ -34,6 +34,10 @@ describe("home page response", function(){
 });
 
 
+
+
+
+
 describe("create page response", function(){
 	it('should return 200 as the status code', function(done){
 		request = {
@@ -57,9 +61,9 @@ describe("create page response", function(){
 			done();
 		});
 	});
-
-
 });
+
+
 
 
 
@@ -90,3 +94,5 @@ describe("update page response", function(){
 
 
 });
+
+*/
