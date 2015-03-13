@@ -24,8 +24,13 @@ var userSchema = mongoose.Schema({
 });
 
 
-var blogSchema = mongoose.Schema({
+var tokenSchema = mongoose.Schema({
+    GUID: Date,
+    record: Object
+});
 
+
+var blogSchema = mongoose.Schema({
   author  : String,
   title   : String,
   text    : String,
@@ -48,6 +53,8 @@ userSchema.methods.announce = function() {
 
 var User = mongoose.model("User", userSchema);
 var BlogPost = mongoose.model("BlogPost", blogSchema);
+var Token = mongoose.model("Token", tokenSchema);
+
 
 /*
 new_user = new User({
@@ -105,6 +112,8 @@ function deleteBlogPost(id){
 
 module.exports = { 
         User: User,
+        Token: Token,
+        BlogPost:BlogPost,
         updateBlogPost: updateBlogPost,
         deleteBlogPost: deleteBlogPost,
         createBlogPost: createBlogPost,
