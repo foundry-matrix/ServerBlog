@@ -6,9 +6,16 @@
 
 /* ------------------------ */
 
+/*GLOBAL STYLING*/
+* {
+	font-family:"Lucida Grande";
+}
+
+
+/*--------------------*/
 .header {
-	font-family: cursive;
 	text-align: center;
+	font-weight:900;
 }
 body {
 		background: url(light_toast.png);

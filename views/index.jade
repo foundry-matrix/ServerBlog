@@ -7,6 +7,9 @@ html
 		div(class="header col-md-12")
 			include ./header
 			div(class="form col-md-6 col-centered")
+		div(class="header col-md-12")
+			a(href="/create")
+				button(type="button") Add Article
 		form( action="&path=/auth",method="post")
 			p Username
 			input(type="text" name='username',rows="2",cols="10")
