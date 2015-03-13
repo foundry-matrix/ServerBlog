@@ -191,7 +191,8 @@ function home_login(req, res) {
 }
 
 function home(req, res) {
-		model.BlogPost.find({author: 'per'}, function(err,posts){
+		model.BlogPost.find(function(err,posts){
+			// {author: 'per'},  *** Removing this from line above so all authors show.
 		    var fn = jade.compileFile(rootPath + "/index.jade");
 			var htmlOutput = fn({posts:posts});
 			console.log("Request handler 'home' was called.");
@@ -231,60 +232,58 @@ function update(req, res) {
 	
 
 function add(req, res, blogid, clientdata) {
-		model.createBlogPost(clientdata);
-		model.BlogPost.find({author: 'per'}, function(err,posts){
-		    var fn = jade.compileFile(rootPath + "/index.jade");
-			var htmlOutput = fn({posts: posts});
-			console.log("Request handler 'home' was called.");
-			res.writeHead(200, {"Content-Type": "text/html"});
-			res.end(htmlOutput);
-  		});
+	model.createBlogPost(clientdata);
 
-	}
+	console.log("Request handler 'add' was called.");
+
+	var fn = jade.compileFile(rootPath + "/confirmation.jade");
+	var htmlOutput = fn({data: 'All done. Your blog post has been created and the world can now read it'});
+	res.writeHead(200, {"Content-Type": "text/html"});
+	res.end(htmlOutput);
+}
 
 function read(req, res, blogid){
-		model.getBlogPost(blogid, function(posts){
-			var path = rootPath + "/blog.jade";
-		    var fn = jade.compileFile(path);
-			var htmlOutput = fn({posts: posts});
-			console.log("posts- ----", posts[0].title)
-			res.writeHead(200, {"Content-Type": "text/html"});
-			res.end(htmlOutput);
-		});
-	}
+	model.getBlogPost(blogid, function(posts){
+		var path = rootPath + "/blog.jade";
+	    var fn = jade.compileFile(path);
+		var htmlOutput = fn({posts: posts});
+		console.log("posts- ----", posts[0].title)
+		res.writeHead(200, {"Content-Type": "text/html"});
+		res.end(htmlOutput);
+	});
+}
 
 function update(req, res, blogid) {
-		model.getBlogPost(blogid, function(posts){
-			console.log("update handler: "+ posts);
-			var fn = jade.compileFile(rootPath + "/update.jade");
-			var htmlOutput = fn({posts: posts});
-			console.log("Request handler 'create' was called.");
-			res.writeHead(200, {"Content-Type": "text/html"});
-			res.end(htmlOutput);
-  		});
-	}
+	model.getBlogPost(blogid, function(posts){
+		console.log("update handler: "+ posts);
+		var fn = jade.compileFile(rootPath + "/update.jade");
+		var htmlOutput = fn({posts: posts});
+		console.log("Request handler 'create' was called.");
+		res.writeHead(200, {"Content-Type": "text/html"});
+		res.end(htmlOutput);
+		});
+}
 
 function save(req, res, blogid, clientdata) {
-		model.updateBlogPost(blogid, clientdata);
-		model.BlogPost.find({author: 'per'}, function(err,posts){
-		    var fn = jade.compileFile(rootPath + "/index.jade");
-			var htmlOutput = fn({posts: posts});
-			console.log("Request handler 'home' was called.");
-			res.writeHead(200, {"Content-Type": "text/html"});
-			res.end(htmlOutput);
-  		});
-	}
+	model.updateBlogPost(blogid, clientdata);
+	console.log("Request handler 'save' was called.");
+
+	var fn = jade.compileFile(rootPath + "/confirmation.jade");
+	var htmlOutput = fn({data: 'Nice. Blog post has been updated'});
+	res.writeHead(200, {"Content-Type": "text/html"});
+	res.end(htmlOutput);
+}
+
 
 function deleteblog(req, res, blogid) {
-		model.deleteBlogPost(blogid);
-		model.BlogPost.find({author: 'per'}, function(err,posts){
-		    var fn = jade.compileFile(rootPath + "/index.jade");
-			var htmlOutput = fn({posts: posts});
-			console.log("Request handler 'home' was called.");
-			res.writeHead(200, {"Content-Type": "text/html"});
-			res.end(htmlOutput);
-  		});
-	}
+	model.deleteBlogPost(blogid);
+	console.log("Request handler 'delete' was called.");
+
+	var fn = jade.compileFile(rootPath + "/confirmation.jade");
+	var htmlOutput = fn({data: 'Blog post deleted. It was probably for the best.'});
+	res.writeHead(200, {"Content-Type": "text/html"});
+	res.end(htmlOutput);
+}
 
 
 
